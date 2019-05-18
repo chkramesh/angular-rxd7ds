@@ -1,0 +1,89 @@
+ <div class="container">    
+    <!-- <form class="mat-dialog-content" (ngSubmit)="editManager(ngForm)" #formControl="ngForm">    -->
+      <div>Manager Name: {{data.managerName}}</div>
+      <div>Manager Product: {{data.managerProduct}}</div>      
+      <!-- <form #editManagerForm="ngForm" (ngSubmit)="onSubmit(editManagerForm)">    -->
+      <form [formGroup]= "editManagerForm" (ngSubmit)="editManager(editManagerForm)">
+      <input type='hidden' formControlName="managerId">
+      <input type='hidden' formControlName="productId">
+      <input type='hidden' formControlName="managerName">
+      <input type='hidden' formControlName="managerProduct">
+      <div class="t11pxB">Start Date</div>
+      <div class="form">
+        <!-- <mat-form-field>
+          <input matInput #input class="form-control" placeholder="Startdate" [(ngModel)]="data.id" name="id" required >
+          <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field> -->        
+            <mat-form-field floatLabel="never">
+              <!-- <mat-select [(value)]="element.fav" placeholder="Startdate"> -->              
+              <!-- <mat-select (selectionChange)="startDatePick($event)" name="assignMgrStartDateList" [(ngModel)]="data.assignMgrStartDateList" > -->
+              <mat-select (selectionChange)="startDatePick($event)" formControlName="assignMgrStartDateList" [(ngModel)]="data.assignMgrStartDateList">
+                <mat-option value="asOfDate">As of Date</mat-option>
+                <mat-option value="allHistory">All History</mat-option>
+              </mat-select>
+            </mat-form-field>            
+            <!-- <mat-form-field appearance="outline" class="width-medium">
+                <mat-select formControlName = "acctType"><!--[(value)] = "selectedAccountType"--
+                  <mat-option *ngFor = "let type of typeRadioButtonContent" id = "acctType" [value] = "type.code"> 
+                    {{type.description}}</mat-option> <!-- --
+                  </mat-select>
+                </mat-form-field> -->
+      </div>      
+      <div *ngIf="startDateDivShow" class="form">
+          <mat-form-field>
+              <!-- <input matInput [matDatepicker]="picker" placeholder="Choose a date" name="startDate" [(ngModel)]="data.startDate"> -->
+              <!-- <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="startDate" [value]="data.startDate" [(ngModel)]="data.startDate"> -->
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date" formControlName="startDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>          
+          <mat-error *ngIf="editManagerForm.hasError('startDateNull')">
+					  <i class="fa fa-times-circle"></i> Please enter a valid start date.
+          </mat-error>
+          <mat-error *ngIf="editManagerForm.hasError('startDateGTendDate')">
+            <i class="fa fa-times-circle"></i> Start Date should be before termination date.
+          </mat-error>
+          <mat-error *ngIf="editManagerForm.hasError('startDateGTcurrentDate')">
+            <i class="fa fa-times-circle"></i> Start Date should be before current date.
+          </mat-error>
+      </div>
+      <div class="t11pxB">End Date</div>
+      <div class="form">          
+              <!-- <mat-form-field floatLabel="never" >                
+                <!-- <mat-select (selectionChange)="endDatePick($event)" name="assignMgrEndDateList" [(ngModel)]="data.assignMgrEndDateList"> --
+                <mat-select (selectionChange)="endDatePick($event)" formControlName="assignMgrEndDateList" [(ngModel)]="data.assignMgrEndDateList">
+                  <mat-option value="asOfDate">As of Date</mat-option>
+                  <mat-option value="current">Current</mat-option>
+                </mat-select>
+              </mat-form-field> -->
+              
+              <mat-form-field floatLabel="never" >                
+                <!-- <mat-select (selectionChange)="endDatePick($event)" name="assignMgrEndDateList" [(ngModel)]="data.assignMgrEndDateList"> -->
+                <mat-select (selectionChange)="endDatePick($event)" formControlName="assignMgrEndDateList" [(ngModel)]="data.assignMgrEndDateList">
+                  <mat-option *ngFor = "let type of assignMgrEndDateListOption" [value] = "type.code"> {{type.description}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>      
+        <div *ngIf="endDateDivShow" class="never">
+            <mat-form-field>
+              <!-- <input matInput [matDatepicker]="picker1" placeholder="Choose a date" formControlName="endDate" [value]="data.endDate" [(ngModel)]="data.endDate"> -->
+              <input matInput [matDatepicker]="picker1" placeholder="Choose a date" formControlName="endDate">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <mat-error *ngIf="editManagerForm.hasError('endDateNull')">
+              <i class="fa fa-times-circle"></i> Please enter a valid end date.
+            </mat-error>
+            <mat-error *ngIf="editManagerForm.hasError('endDateGTcurrentDate')">
+              <i class="fa fa-times-circle"></i> Termination Date should be on or before current date.
+            </mat-error>
+        </div>
+      <div mat-dialog-actions>
+        <!-- <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="editManager()">Save</button>-->        
+        <button mat-button class="btn" type="submit">Submit</button>&nbsp;
+        <!-- <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button> -->
+        <a mat-button class="btn neg" (click)="onNoClick()" tabindex="-1">Cancel</a>
+      </div>
+    </form>
+  </div>
+<!--  -->
